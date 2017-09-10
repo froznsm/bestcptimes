@@ -30,7 +30,7 @@ class BestCpTimes(AppConfig):
         asyncio.ensure_future(self.widget.display())
 
     # When a player passes a CP
-    async def player_cp(self, player, race_time, raw, *args, **kwargs):
+    async def player_cp(self, player, raw, *args, **kwargs):
         cpnm = int(raw['checkpointinlap'])
         laptime = int(raw['laptime'])
         pcp = PlayerCP(player, cpnm+1, laptime)
@@ -44,13 +44,16 @@ class BestCpTimes(AppConfig):
             logging.debug(' '.join(str(e.time) for e in self.best_cp_times))
         await self.widget.display()
 
+    # When the map ends
     async def map_end(self, *args, **kwargs):
         self.best_cp_times.clear()
         await self.widget.display()
 
+    # When a player connects
     async def player_connect(self, player, **kwargs):
         await self.widget.display(player)
 
+    # TODO: to be moved to .view in pyplanet 0.7.0 or earlier
     async def show_cptimes_list(self, player, data=None, **kwargs):
         view = CpTimesListView(self)
         await view.display(player=player.login)
