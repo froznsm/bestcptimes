@@ -19,7 +19,7 @@ class BestCpTimesWidget(TimesWidgetView):
         self.id = 'pyplanet__widget_bestcps'
         self.logins = []
         self.action = self.action_cptimeslist
-
+    
     async def get_player_data(self):
         self.logins = []
         for pcp in self.app.best_cp_times:
