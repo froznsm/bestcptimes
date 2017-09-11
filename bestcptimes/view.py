@@ -8,7 +8,7 @@ class BestCpTimesWidget(TimesWidgetView):
     widget_y = 90
     size_x = 250
     size_y = 18
-    title = 'CP Times'
+    title = 'Best CPs'
 
     template_name = 'cpwidget/bestcpwidgetTop.xml'
 
@@ -29,7 +29,7 @@ class BestCpTimesWidget(TimesWidgetView):
         for idx, player in enumerate(self.app.instance.player_manager.online):
             list_cps = []
             for pcp in self.app.best_cp_times:
-                list_time = {'index': self.app.best_cp_times.index(pcp),
+                list_time = {'index': pcp.cp,
                              'color': "$0f3" if player.login == pcp.player.login else "$ff0",
                              'cptime': times.format_time(pcp.time), 'nickname': pcp.player.nickname,
                              'login': pcp.player.login}
@@ -40,7 +40,18 @@ class BestCpTimesWidget(TimesWidgetView):
         return data
 
     async def action_cptimeslist(self, player, **kwargs):
-        await self.app.show_cptimes_list(player)
+        view = CpTimesListView(self.app)
+        await view.display(player=player.login)
+        return view
+
+    # Only show the widget in TimeAttack mode as it interferes with UI elements in the other modes
+    async def display(self, player=None, **kwargs):
+        current_script = await self.app.instance.mode_manager.get_current_script()
+        if 'TimeAttack' in current_script:
+            await super().display()
+        else:
+            for idx, player in enumerate(self.app.instance.player_manager.online):
+                await super().close(player)
 
 
 class CpTimesListView(ManualListView):
