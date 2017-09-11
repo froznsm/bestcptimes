@@ -7,4 +7,5 @@ When clicking on the 'Best CPs' header a list of all the checkpoints and times a
 ### Laps
 The `laptime` component of the `waypoint` callback is used to avoid adding new checkpoints each lap.
 ### See it in action
-The app is live on [*.dicto's* server](maniaplanet://#join=keilerei@TMStadium@nadeo) and can be seen and tested there.
+The app is live on *.dicto's* sever and can be seen and tested there.
+Use this join URL: maniaplanet://#join=keilerei@TMStadium@nadeo
