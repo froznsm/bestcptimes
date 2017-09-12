@@ -11,6 +11,7 @@ from .view import CpTimesListView
 class BestCpTimes(AppConfig):
     game_dependencies = ['trackmania']
     app_dependencies = ['core.maniaplanet', 'core.trackmania']
+    mode_dependencies = ['TimeAttack']
 
     best_cp_times = []
 
@@ -40,7 +41,7 @@ class BestCpTimes(AppConfig):
             self.best_cp_times[cpnm] = pcp
         await self.widget.display()
 
-    # When the map ends
+    # When the starts
     async def map_begin(self, *args, **kwargs):
         self.best_cp_times.clear()
         await self.widget.display()
