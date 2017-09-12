@@ -35,10 +35,22 @@ class BestCpTimes(AppConfig):
         cpnm = int(raw['checkpointinlap'])
         laptime = int(raw['laptime'])
         pcp = PlayerCP(player, cpnm+1, laptime)
-        if not self.best_cp_times or len(self.best_cp_times) <= cpnm:
+        if not self.best_cp_times:
             self.best_cp_times.append(pcp)
-        elif self.best_cp_times[cpnm].time > laptime:
-            self.best_cp_times[cpnm] = pcp
+        else:
+            added = False
+            for idx, current_cp in enumerate(self.best_cp_times):
+                if pcp.cp < current_cp.cp:
+                    self.best_cp_times.insert(idx, pcp)
+                    added = True
+                    break
+                elif pcp.cp == current_cp.cp:
+                    if laptime < current_cp.time:
+                        self.best_cp_times[idx] = pcp
+                    added = True
+                    break
+            if not added:
+                self.best_cp_times.append(pcp)
         await self.widget.display()
 
     # When the map starts
@@ -57,4 +69,3 @@ class PlayerCP:
         self.player = player
         self.cp = cp
         self.time = time
-
