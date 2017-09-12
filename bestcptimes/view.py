@@ -44,6 +44,16 @@ class BestCpTimesWidget(TimesWidgetView):
         await view.display(player=player.login)
         return view
 
+    # TODO: remove/rework when finishing widget for rounds/cup/team mode gets reworked
+    # Only show the widget in TimeAttack mode as it interferes with UI elements in the other modes
+    async def display(self, player=None, **kwargs):
+        current_script = await self.app.instance.mode_manager.get_current_script()
+        if 'TimeAttack' in current_script:
+            await super().display()
+        else:
+            for idx, player in enumerate(self.app.instance.player_manager.online):
+                await super().close(player)
+
 
 class CpTimesListView(ManualListView):
     title = 'Best CP times in current round'
