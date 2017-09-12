@@ -25,7 +25,7 @@ class BestCpTimes(AppConfig):
         self.instance.signal_manager.listen(tm_signals.waypoint, self.player_cp)
         self.instance.signal_manager.listen(mp_signals.player.player_connect, self.player_connect)
         self.instance.signal_manager.listen(mp_signals.map.map_begin, self.map_begin)
-
+        self.instance.signal_manager.listen(mp_signals.map.map_start__end, self.map_end)
         self.best_cp_times.clear()
         self.widget = BestCpTimesWidget(self)
         asyncio.ensure_future(self.widget.display())
@@ -55,6 +55,11 @@ class BestCpTimes(AppConfig):
 
     # When the map starts
     async def map_begin(self, *args, **kwargs):
+        self.best_cp_times.clear()
+        await self.widget.display()
+
+    # When the map ends. This is needed to not keep the old CP data when the map is restarted.
+    async def map_end(self, *args, **kwargs):
         self.best_cp_times.clear()
         await self.widget.display()
 
