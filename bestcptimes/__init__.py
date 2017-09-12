@@ -34,14 +34,14 @@ class BestCpTimes(AppConfig):
     async def player_cp(self, player, raw, *args, **kwargs):
         cpnm = int(raw['checkpointinlap'])
         laptime = int(raw['laptime'])
-        pcp = PlayerCP(player, cpnm, laptime)
+        pcp = PlayerCP(player, cpnm+1, laptime)
         if not self.best_cp_times or len(self.best_cp_times) <= cpnm:
             self.best_cp_times.append(pcp)
         elif self.best_cp_times[cpnm].time > laptime:
             self.best_cp_times[cpnm] = pcp
         await self.widget.display()
 
-    # When the starts
+    # When the map starts
     async def map_begin(self, *args, **kwargs):
         self.best_cp_times.clear()
         await self.widget.display()
