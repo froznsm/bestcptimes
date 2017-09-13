@@ -4,7 +4,7 @@
     {% block content %}
       {% if cps != None %}
         {% for time in cps %}
-          {% if loop.index0 < 30 %}
+          {% if loop.index0 < 18 %}
             <frame pos="{% if (time.index-1) % 6 == 0 %}35.65{% else %}{{ ((time.index-1) % 6 * 35.65)+35.65 }}{% endif %} -{{ ((time.index-1) // 6 * 3.5) - 6.5 }}">
               <quad pos="0 0" z-index="0" size="4 3" bgcolor="00000070"/>
               <label pos="2 -1.5" z-index="1" size="4 3" text="{{ time.index }}" textsize="0.3" textfont="RajdhaniMono"  textemboss="1" halign="center" valign="center2"/>
