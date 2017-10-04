@@ -1,3 +1,5 @@
+This app will be part of the 0.5.0 release of [PyPlanet](http://pypla.net). This repo will probably not be maintained.
+
 # BestCPTimes
 App for [PyPlanet](http://pypla.net).
 ## Description
